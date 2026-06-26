@@ -1,8 +1,8 @@
 class GitlabMrTrain < Formula
   desc "GitLab MR release train runner for dependent libraries and apps"
   homepage "https://github.com/SabikAbtahee/Gitlab_MR_Train"
-  url "https://github.com/SabikAbtahee/Gitlab_MR_Train/archive/refs/tags/v1.0.2.tar.gz"
-  sha256 "c2789eeae6732128e806bd80a1e6d588f8f251adc21c9f1bcc21ea0aaa887b77"
+  url "https://github.com/SabikAbtahee/Gitlab_MR_Train/archive/refs/tags/v1.0.3.tar.gz"
+  sha256 "PLACEHOLDER"
   license "MIT"
 
   depends_on "node@20"
@@ -12,6 +12,7 @@ class GitlabMrTrain < Formula
     system "npm", "install", "--include=dev", *std_npm_args(prefix: false)
     system "npm", "run", "build"
     system "npm", "prune", "--omit=dev"
+    chmod 0755, "dist/cli.js"
     libexec.install "dist", "node_modules", "package.json"
     bin.install_symlink libexec/"dist/cli.js" => "gitlab-mr-train"
     bin.install_symlink libexec/"dist/cli.js" => "mr-train"
