@@ -2,50 +2,47 @@
 
 ## Quick install (no tap)
 
-After pushing to GitHub, colleagues can install directly:
-
 ```bash
-brew install https://raw.githubusercontent.com/you/gitlab-release-train/main/Formula/gitlab-mr-train.rb
+brew install https://raw.githubusercontent.com/SabikAbtahee/gitlab-mr-train/main/Formula/gitlab-mr-train.rb
 ```
 
-Replace `you/gitlab-release-train` with your GitHub org/user and repo name.
+On first install, Homebrew may ask you to trust the formula:
+
+```bash
+brew trust --formula sabikabtahee/gitlab-mr-train/gitlab-mr-train
+```
 
 ## Tap install (recommended for teams)
 
-1. Create a public GitHub repo named `homebrew-gitlab-mr-train` (must start with `homebrew-`).
-
-2. Copy `Formula/gitlab-mr-train.rb` into that repo under `Formula/`.
-
-3. Colleagues run:
+Tap the repo directly (formula lives in `Formula/`):
 
 ```bash
-brew tap you/gitlab-mr-train
+brew tap SabikAbtahee/gitlab-mr-train https://github.com/SabikAbtahee/gitlab-mr-train.git
+brew trust sabikabtahee/gitlab-mr-train
 brew install gitlab-mr-train
 brew upgrade gitlab-mr-train   # later updates
 ```
 
-Homebrew strips the `homebrew-` prefix from the tap name.
-
 ## Cutting a release
 
-1. Update `url` and `sha256` in the formula:
+1. Tag and push:
 
 ```bash
-curl -L https://github.com/you/gitlab-release-train/archive/refs/tags/v1.0.0.tar.gz | shasum -a 256
+git tag v1.0.4
+git push origin v1.0.4
 ```
 
-2. Tag and push:
+2. Update `url` and `sha256` in `Formula/gitlab-mr-train.rb`:
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+curl -L https://github.com/SabikAbtahee/gitlab-mr-train/archive/refs/tags/v1.0.4.tar.gz | shasum -a 256
 ```
 
-3. Commit the updated formula SHA256 to main (and your tap repo if separate).
+3. Commit the updated formula to `main` and push.
 
 ## Cost
 
-Public GitHub tap + releases are free. No npm org or paid registry required.
+Public GitHub repo + releases are free. No npm org or paid registry required.
 
 ## Prerequisites for users
 

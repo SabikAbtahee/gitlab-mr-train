@@ -27,16 +27,30 @@ glab auth status
 ### Homebrew (recommended)
 
 ```bash
-brew install https://raw.githubusercontent.com/you/gitlab-release-train/main/Formula/gitlab-mr-train.rb
+brew install https://raw.githubusercontent.com/SabikAbtahee/gitlab-mr-train/main/Formula/gitlab-mr-train.rb
 ```
 
-See [docs/homebrew-tap.md](docs/homebrew-tap.md) for tap setup and release workflow.
+If Homebrew asks to trust the formula first:
+
+```bash
+brew trust --formula sabikabtahee/gitlab-mr-train/gitlab-mr-train
+```
+
+Alternative (tap — easier upgrades):
+
+```bash
+brew tap SabikAbtahee/gitlab-mr-train https://github.com/SabikAbtahee/gitlab-mr-train.git
+brew trust sabikabtahee/gitlab-mr-train
+brew install gitlab-mr-train
+```
+
+See [docs/homebrew-tap.md](docs/homebrew-tap.md) for release workflow.
 
 ### From source
 
 ```bash
-git clone https://github.com/you/gitlab-release-train.git
-cd gitlab-release-train
+git clone https://github.com/SabikAbtahee/gitlab-mr-train.git
+cd gitlab-mr-train
 npm install
 npm run build
 npm link
@@ -46,7 +60,7 @@ npm link
 
 ```bash
 gitlab-mr-train init    # interactive repos.yaml in ~/.config/gitlab-mr-train/
-gitlab-mr-train         # pick active train, start new, or resume
+gitlab-mr-train         # pick active train, start new, revoke MR approval, or resume
 ```
 
 Config lives in `~/.config/gitlab-mr-train/`:
@@ -72,7 +86,7 @@ Dependency updates commit to the **MR source branch** (not main) when the downst
 
 | Command | Description |
 |---------|-------------|
-| `gitlab-mr-train` | Pick active train, resume, or start new |
+| `gitlab-mr-train` | Pick active train, start new, revoke MR approval, or resume |
 | `gitlab-mr-train init` | Set up repo registry |
 | `gitlab-mr-train init --add` | Add repos to existing config |
 | `gitlab-mr-train init --edit <id>` | Update one repo |
@@ -135,7 +149,7 @@ npm run check
 
 ## Limitations
 
-- Dry-run does not call GitLab or clone repos
+- Dry-run does not call GitLab or clone repos (revoke-approval wizard always fetches rules for preview)
 - `localCommand` pack type is schema-only, not implemented
-- Approval/unresolved-discussion checks not implemented
+- MR readiness checks do not include approval/unresolved-discussion gates (use **Revoke MR approval** menu to clear approval rules)
 - HTTPS clone URLs only (from `gitlab` field); git credentials must allow push
