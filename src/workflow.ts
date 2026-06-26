@@ -4,6 +4,7 @@ import { loadRepos, loadTrain, topoSortSteps, type ReposConfig, type TrainConfig
 import { GitLab } from "./gitlab.js";
 import { installCommitPush, pullMainBranch, readPackageVersion, updateDependency } from "./repo.js";
 import { newRunState, readState, setStep, writeState, type RunState, type StepStatus } from "./state.js";
+import { playSound } from "./sound.js";
 import { WorkspaceManager } from "./workspace.js";
 
 export type RunOptions = {
@@ -49,6 +50,7 @@ export async function runWorkflow(options: RunOptions): Promise<void> {
     }
 
     console.log("Release train complete.");
+    playSound("done");
     await workspace.cleanup();
   } catch (error) {
     if (options.execute) {

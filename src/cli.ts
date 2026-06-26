@@ -6,6 +6,7 @@ import { slugify } from "./paths.js";
 import { getTrainContext } from "./train-registry.js";
 import { readState, resetStepForRerun, writeState } from "./state.js";
 import { abortTrain, handleDefaultCommand, pickTrainSlug } from "./train-wizard.js";
+import { playSound } from "./sound.js";
 import { runWorkflow } from "./workflow.js";
 
 async function main(): Promise<void> {
@@ -130,10 +131,13 @@ Your local repo paths in repos.yaml are not modified during execute mode.
 Install:
   brew install https://raw.githubusercontent.com/you/gitlab-release-train/main/Formula/gitlab-mr-train.rb
 
-Default mode is dry-run. Use --execute for real glab/git/npm actions.`);
+Default mode is dry-run. Use --execute for real glab/git/npm actions.
+
+Sounds on error/done (default on). Disable: MR_TRAIN_SOUNDS=0`);
 }
 
 main().catch((error: unknown) => {
   console.error(error instanceof Error ? error.message : error);
+  playSound("error");
   process.exitCode = 1;
 });

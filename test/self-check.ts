@@ -6,6 +6,7 @@ import { downstreamStepIds, packJobName, topoSortSteps, type TrainStep } from ".
 import { rulesToRevoke, type ApprovalRule } from "../src/gitlab.js";
 import { slugify } from "../src/paths.js";
 import { updateDependency } from "../src/repo.js";
+import { isSoundEnabled } from "../src/sound.js";
 import { isTrainActive } from "../src/train-registry.js";
 import { newRunState } from "../src/state.js";
 
@@ -27,6 +28,14 @@ assert.equal(packJobName({ type: "gitlabJob", job: "release:minor" }), "release:
 assert.deepEqual(downstreamStepIds(steps, "libA"), ["libB", "appA"]);
 assert.deepEqual(downstreamStepIds(steps, "libB"), ["appA"]);
 assert.deepEqual(downstreamStepIds(steps, "appA"), []);
+
+const savedSounds = process.env.MR_TRAIN_SOUNDS;
+delete process.env.MR_TRAIN_SOUNDS;
+assert.equal(isSoundEnabled(), true);
+process.env.MR_TRAIN_SOUNDS = "0";
+assert.equal(isSoundEnabled(), false);
+if (savedSounds === undefined) delete process.env.MR_TRAIN_SOUNDS;
+else process.env.MR_TRAIN_SOUNDS = savedSounds;
 
 assert.equal(slugify("Dashboard Filters"), "dashboard-filters");
 assert.equal(slugify("  My Train!!  "), "my-train");
