@@ -2,7 +2,7 @@ class GitlabMrTrain < Formula
   desc "GitLab MR release train runner for dependent libraries and apps"
   homepage "https://github.com/SabikAbtahee/Gitlab_MR_Train"
   url "https://github.com/SabikAbtahee/Gitlab_MR_Train/archive/refs/tags/v1.0.3.tar.gz"
-  sha256 "PLACEHOLDER"
+  sha256 "cc69c6be5277368a528fd449434137ee303d210936435449248636adec685374"
   license "MIT"
 
   depends_on "node@20"
